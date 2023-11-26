@@ -253,8 +253,46 @@ void forma_padrao(int restricoes, int qtd) {
 primeiraFase(valores, restricoes + 1, qtd + restricoes + 4, variavelBasica, var_art);
 
     // FASE 1 ATÉ AQUI
+ double funcaoObjetivo[qtd];
+    atualizaFuncaoObjetivo(valores, qtd + restricoes + 4, funcaoObjetivo);
+    printf("\n\n Funcao Objetivo Original: ");
+    for (int k = 0; k < qtd; k++) {
+        printf("%.4lf X%d  ", funcaoObjetivo[k], k + 1);
+    }
+    primeiraFase(valores, restricoes + 1, qtd + restricoes + 4, variavelBasica, var_art);
+    segundaFase(valores, restricoes + 1, qtd + restricoes + 4, variavelBasica, variavelOriginal);
+
+    // Extrair a solução ótima
+    double solucao[qtd];
+    extraiSolucao(valores, restricoes + 1, qtd + restricoes + 4, variavelBasica, solucao);
+
+
+    printf("\n\n Solucao Otima: ");
+    for (int k = 0; k < qtd; k++) {
+        printf("X%d = %.4lf  ", k + 1, solucao[k]);
+    }
 
 }
+void atualizaFuncaoObjetivo(double quadro[50][50], int colunas, double *funcaoObjetivo) {
+    for (int j = 1; j < colunas - 1; j++) {
+        funcaoObjetivo[j - 1] = -quadro[linhas - 1][j];
+    }
+}
+void extraiSolucao(double quadro[50][50], int linhas, int colunas, int *variavelBasica, double *solucao) {
+    for (int i = 0; i < colunas - 1; i++) {
+        solucao[i] = 0;
+    }
+for (int i = 0; i < linhas - 1; i++) {
+        if (variavelBasica[i] <= colunas - 2) {
+            solucao[variavelBasica[i] - 1] = quadro[i][colunas - 1];
+        }
+    }
+}
+void segundaFase(double quadro[50][50], int linhas, int colunas, int *variavelBasica, int *variavelOriginal) {
+    // ... (SEGUNDA FASE)
+}
+
+
 
 int main() {
     int restricoes, qtd;
