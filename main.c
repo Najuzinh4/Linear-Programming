@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 void imprimeQuadro(double quadro[50][50], int linhas, int colunas) {
+    printf("\nTabela na Fase %d:\n", fase);
     for (int i = 0; i < linhas; i++) {
         for (int j = 0; j < colunas; j++) {
             printf("%.2lf\t", quadro[i][j]);
@@ -10,6 +11,7 @@ void imprimeQuadro(double quadro[50][50], int linhas, int colunas) {
         printf("\n");
     }
 }
+
 
 void primeiraFase(double quadro[50][50], int linhas, int colunas, int *variavelBasica, int variavelArtificial) {
     int iteracao = 1;
@@ -293,14 +295,27 @@ void segundaFase(double quadro[50][50], int linhas, int colunas, int *variavelBa
 }
 
 
-
 int main() {
     int restricoes, qtd;
     printf("Quantas restricoes existem?: ");
     scanf("%d", &restricoes);
     printf("\nQuantos x existem?: ");
     scanf("%d", &qtd);
+
     forma_padrao(restricoes, qtd);
+
+    // Chamada da segunda fase e extração da solução
+    segundaFase(valores, restricoes + 1, qtd + restricoes + 4, variavelBasica, variavelOriginal);
+
+    // Extrai a solução ótima
+    double solucao[qtd];
+    extraiSolucao(valores, restricoes + 1, qtd + restricoes + 4, variavelBasica, solucao);
+
+    // Imprime a solução ótima
+    printf("\n\n Solucao Otima: ");
+    for (int k = 0; k < qtd; k++) {
+        printf("X%d = %.4lf  ", k + 1, solucao[k]);
+    }
 
     return 0;
 }
